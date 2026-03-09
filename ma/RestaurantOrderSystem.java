@@ -39,7 +39,7 @@ public class RestaurantOrderSystem extends Application {
     }
 
     private void initTexts() {
-        // Shqip
+
         txtSQ.put("loginTitle", "Login Kamarieri");
         txtSQ.put("username", "Username");
         txtSQ.put("password", "Password");
@@ -62,7 +62,6 @@ public class RestaurantOrderSystem extends Application {
         txtSQ.put("total", "Totali");
         txtSQ.put("fiscalInvoice", "Fatura Fiskale");
 
-        // English
         txtEN.put("loginTitle", "Waiter Login");
         txtEN.put("username", "Username");
         txtEN.put("password", "Password");
@@ -90,7 +89,6 @@ public class RestaurantOrderSystem extends Application {
         return language == Language.SQ ? txtSQ.get(key) : txtEN.get(key);
     }
 
-    /* ================= LOGIN ================= */
     private void showLoginPage(Stage stage) {
 
         Label title = new Label(txt("loginTitle"));
@@ -120,7 +118,6 @@ public class RestaurantOrderSystem extends Application {
         stage.show();
     }
 
-    /* ================= MENU ================= */
     private void showMenuPage(Stage stage) {
 
         Label title = new Label(txt("menuTitle"));
@@ -130,7 +127,6 @@ public class RestaurantOrderSystem extends Application {
         tableField.setPromptText(txt("tablePrompt"));
         tableField.setMaxWidth(200);
 
-        // Language switch
         ComboBox<String> langBox = new ComboBox<>();
         langBox.getItems().addAll("Shqip", "English");
         langBox.setValue(language == Language.SQ ? "Shqip" : "English");
@@ -147,28 +143,24 @@ public class RestaurantOrderSystem extends Application {
         Map<String, Double> prices = new LinkedHashMap<>();
         Map<String, Map<String, Double>> categories = new LinkedHashMap<>();
 
-        // 🥗 Sallata
         Map<String, Double> sallata = new LinkedHashMap<>();
         sallata.put("Sallatë Jeshile", 300.0);
         sallata.put("Sallatë Greke", 350.0);
         sallata.put("Sallatë Caesar", 400.0);
         categories.put("🥗 Sallata", sallata);
 
-        // 🍝 Pasta & Rizoto
         Map<String, Double> pasta = new LinkedHashMap<>();
         pasta.put("Linguini", 500.0);
         pasta.put("Spaghetti Bolognese", 550.0);
         pasta.put("Rizoto me Kërpudha", 480.0);
         categories.put("🍝 Pasta & Rizoto", pasta);
 
-        // 🍖 Pjata Kryesore
         Map<String, Double> kryesore = new LinkedHashMap<>();
         kryesore.put("Fileto Pule", 700.0);
         kryesore.put("Biftek Viçi", 900.0);
         kryesore.put("Kotoletë Derr", 750.0);
         categories.put("🍖 Pjata Kryesore", kryesore);
 
-        // 🥤 Pije
         Map<String, Double> pije = new LinkedHashMap<>();
         pije.put("Ujë", 100.0);
         pije.put("Coca-Cola", 150.0);
@@ -176,14 +168,12 @@ public class RestaurantOrderSystem extends Application {
         pije.put("Birrë", 250.0);
         categories.put("🥤 Pije", pije);
 
-        // 🍰 Ëmbëlsira
         Map<String, Double> embelsira = new LinkedHashMap<>();
         embelsira.put("Tiramisu", 300.0);
         embelsira.put("Cheesecake", 320.0);
         embelsira.put("Akullore", 250.0);
         categories.put("🍰 Ëmbëlsira", embelsira);
 
-        // Ndërto UI sipas kategori
         categories.forEach((catName, items) -> {
             Label catLabel = new Label(catName);
             catLabel.setStyle("-fx-font-size:16; -fx-font-weight:bold;");
@@ -250,19 +240,16 @@ public class RestaurantOrderSystem extends Application {
         stage.setScene(new Scene(new StackPane(scroll), 500, 700));
     }
 
-    /* ================= INVOICE ================= */
     private void showInvoicePage(Stage stage) {
 
         TextArea area = new TextArea();
         area.setEditable(false);
         area.setMaxWidth(400);
 
-        // Llogarit subtotal, tax, total
         double subtotal = total;
         double taxAmount = subtotal * TAX;
         double grandTotal = subtotal + taxAmount;
 
-        // Numër unik porosie për faturën fiskale
         String fiscalNumber = "P" + System.currentTimeMillis();
 
         StringBuilder sb = new StringBuilder();
@@ -278,7 +265,6 @@ public class RestaurantOrderSystem extends Application {
         sb.append(txt("tax")).append(": ").append(taxAmount).append(" Lek\n");
         sb.append(txt("total")).append(": ").append(grandTotal).append(" Lek\n");
 
-        // Fatura Fiskale
         sb.append("\n---------- ").append(txt("fiscalInvoice")).append(" ----------\n");
         sb.append("Nr. Fature: ").append(fiscalNumber).append("\n");
         sb.append("Kamarieri: ").append(loggedWaiter).append("\n");
@@ -301,7 +287,6 @@ public class RestaurantOrderSystem extends Application {
         stage.setScene(new Scene(new StackPane(box), 450, 500));
     }
 
-    /* ================= PAYMENT ================= */
     private void showPaymentPage(Stage stage, String invoiceText) {
 
         ToggleGroup group = new ToggleGroup();
@@ -329,7 +314,6 @@ public class RestaurantOrderSystem extends Application {
         stage.setScene(new Scene(new StackPane(box), 300, 250));
     }
 
-    /* ================= PRINT ================= */
     private void printInvoice(String text) {
         try {
             Files.write(Paths.get("fatura_tavolina_" + tableNumber + ".txt"), text.getBytes());
