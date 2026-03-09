@@ -82,7 +82,7 @@ public class xh extends Application {
         List<File> files = fileChooser.showOpenMultipleDialog(null);
         if (files != null) {
             for (File file : files) {
-                // Ngarkojmë imazhin pa smoothing
+              
                 Image img = new Image(file.toURI().toString(), 0, 0, true, false);
 
                 ImageView iv = new ImageView(img);
